@@ -362,7 +362,7 @@ LOGGING = {
     },
 }
 
-REDIS_URL = env("REDIS_URL", default="redis://localhost:6379/0")
+REDIS_URL = env("REDIS_URL", default="redis://localhost:6381/0")
 
 # Ethereum RPC
 # ------------------------------------------------------------------------------
