@@ -33,7 +33,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 6381:6379
+          - 6381:6381
       postgres:
         image: postgres:13
         env:

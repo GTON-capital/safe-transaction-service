@@ -8,23 +8,29 @@ services:
     image: nginx:alpine
     hostname: nginx
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - nginx-shared:/nginx
     depends_on:
       - web
+    networks:
+      - safenetwork
 
   redis:
     image: redis:alpine
     ports:
-      - "6381:6379"
+      - "6381:6381"
     command:
       - --port 6381
       - --appendonly yes
+    networks:
+      - safenetwork
 
   rabbitmq:
     image: rabbitmq:alpine
+    networks:
+      - safenetwork
 
   db:
     image: postgres:13-alpine
@@ -33,6 +39,8 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    networks:
+      - safenetwork
 
   web:
     build:
@@ -49,6 +57,8 @@ services:
     volumes:
       - nginx-shared:/nginx
     command: docker/web/run_web.sh
+    networks:
+      - safenetwork
 
   indexer-worker: &worker
     build:
@@ -64,24 +74,37 @@ services:
       - redis
       - rabbitmq
     command: docker/web/celery/worker/run.sh
+    networks:
+      - safenetwork
 
   contracts-tokens-worker:
     <<: *worker
     environment:
       WORKER_QUEUES: "contracts,tokens"
+    networks:
+      - safenetwork
 
   notifications-webhooks-worker:
     <<: *worker
     environment:
       WORKER_QUEUES: "notifications,webhooks"
+    networks:
+      - safenetwork
 
   scheduler:
     <<: *worker
     command: docker/web/celery/scheduler/run.sh
+    networks:
+      - safenetwork
 
   flower:
     <<: *worker
     command: docker/web/celery/flower/run.sh
     ports:
       - "5555:5555"
+    networks:
+      - safenetwork
 
+networks:
+  safenetwork:
+    name: safe_network
