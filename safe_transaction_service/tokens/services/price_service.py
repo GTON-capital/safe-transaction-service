@@ -234,7 +234,10 @@ class PriceService:
             EthereumNetwork.CRONOS_MAINNET,
         ):
             return self.get_cronos_usd_price()
-        elif self.ethereum_network == EthereumNetwork.GTON_MAINNET:
+        elif self.ethereum_network in (
+            EthereumNetwork.GTON_MAINNET, 
+            EthereumNetwork.GTON_TESTNET
+        ):
             return self.get_gton_usd_price()
         else:
             try:
