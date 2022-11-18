@@ -38,6 +38,8 @@ class CoingeckoClient:
             self.asset_platform = "xdai"
         elif network == EthereumNetwork.GTON_MAINNET:
             self.asset_platform = "gton"
+        elif network == EthereumNetwork.GTON_TESTNET:
+            self.asset_platform = "gton"
         else:
             self.asset_platform = "ethereum"
 
