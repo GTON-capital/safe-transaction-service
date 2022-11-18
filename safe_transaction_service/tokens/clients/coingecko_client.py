@@ -145,4 +145,4 @@ class CoingeckoClient:
         return self.get_price("gather")
 
     def get_gton_usd_price(self) -> float:
-        return self.get_price("gton")
+        return self.get_price("gton-capital")
