@@ -238,7 +238,11 @@ class PriceService:
             EthereumNetwork.GTON_MAINNET, 
             EthereumNetwork.GTON_TESTNET
         ):
-            return self.get_gton_usd_price()
+            """
+            GCD price is not indexable by any DEX 
+            should be set to 1
+            """
+            return 1
         else:
             try:
                 return self.kraken_client.get_eth_usd_price()
